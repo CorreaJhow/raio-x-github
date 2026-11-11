@@ -1,0 +1,8 @@
+{
+  "name": "raio-x-github",
+  "version": "0.1.0",
+  "description": "Raio-x do seu GitHub em PT-BR: entrevista, coleta via gh, auditoria de segurança do histórico, nota por eixo e script revisável (dry-run) pra arrumar o perfil.",
+  "author": { "name": "CorreaJhow" },
+  "repository": "https://github.com/CorreaJhow/raio-x-github",
+  "keywords": ["github", "perfil", "auditoria", "seguranca", "pt-br"]
+}

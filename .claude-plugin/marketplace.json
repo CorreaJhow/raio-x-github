@@ -1,0 +1,8 @@
+{
+  "name": "raio-x-github",
+  "description": "Skill raio-x-github: auditoria e faxina do seu GitHub em PT-BR.",
+  "owner": { "name": "CorreaJhow" },
+  "plugins": [
+    { "name": "raio-x-github", "source": "./", "description": "Raio-x do GitHub: nota, segurança e script revisável." }
+  ]
+}

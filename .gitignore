@@ -1,0 +1,4 @@
+raio-x/
+node_modules/
+# SPEC interna (caminhos do workspace); a versão pública fica em docs/SPEC.md
+specs/
