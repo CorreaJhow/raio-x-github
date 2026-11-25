@@ -1,0 +1,3 @@
+*{box-sizing:border-box}body{margin:0;width:1280px;height:800px;background:#0d1117;color:#e6edf3;font-family:"Segoe UI",system-ui,sans-serif;overflow:hidden}
+.mono{font-family:Consolas,"Cascadia Mono",monospace}.g{color:#3fb950}.dim{color:#8b949e}
+.tag{position:absolute;right:40px;bottom:28px;font-size:18px;color:#8b949e}

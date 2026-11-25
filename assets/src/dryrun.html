@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><style>
+.w{padding:44px 60px}.t{background:#010409;border:1px solid #30363d;border-radius:14px;overflow:hidden}
+.bar{background:#161b22;padding:14px 20px;font-size:18px;color:#8b949e;border-bottom:1px solid #30363d}
+pre{margin:0;padding:26px 30px;font:22px/1.6 Consolas,"Cascadia Mono",monospace;color:#e6edf3;white-space:pre-wrap}
+.y{color:#d29922}.g{color:#3fb950}.d{color:#8b949e}
+</style><div class="w"><div class="t"><div class="bar">$ bash xray/apply.sh</div><pre><span class="y">DRY RUN: nothing will be changed. Use --apply to execute.</span>
+
+<span class="g">== 1. private portfolio: contains "paid-course"</span>
+  command:  gh repo edit dev/portfolio --visibility private
+  <span class="d">undo:     gh repo edit dev/portfolio --visibility public</span>
+
+<span class="g">== 2. clean-coauthor shop-api: 12 commits with AI co-author</span>
+  backup:   git clone --mirror .../shop-api.git xray/backup/shop-api.git
+  rewrite:  git filter-branch --msg-filter (removes AI Co-authored-by)
+  <span class="d">undo:     push the mirror backup back with --force</span>
+
+<span class="d"># No step deletes a repo. Each step prints how to undo it.</span></pre></div></div>
+<div class="tag">sample data</div>

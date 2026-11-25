@@ -4,6 +4,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Node 18+](https://img.shields.io/badge/node-18%2B-green.svg)](https://nodejs.org) [![GitHub stars](https://img.shields.io/github/stars/CorreaJhow/raio-x-github?style=social)](https://github.com/CorreaJhow/raio-x-github)
 
+![GitHub X-Ray: find leaked secrets in your GitHub history](assets/1-cover.png)
+
 A [Claude Code](https://code.claude.com) skill that audits your own GitHub account: profile, repos and **the security of your full commit history**. It scores each axis and generates a script you can review before anything changes.
 
 **Nothing leaves your machine, and nothing changes until you run the script yourself.**

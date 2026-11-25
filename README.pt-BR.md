@@ -4,6 +4,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Node 18+](https://img.shields.io/badge/node-18%2B-green.svg)](https://nodejs.org) [![GitHub stars](https://img.shields.io/github/stars/CorreaJhow/raio-x-github?style=social)](https://github.com/CorreaJhow/raio-x-github)
 
+![GitHub X-Ray: find leaked secrets in your GitHub history](assets/1-cover.png)
+
 Skill do [Claude Code](https://code.claude.com) que faz um raio-x do seu GitHub: audita perfil, repos e a **segurança de todo o histórico de commits**, dá nota por eixo e gera um script que você revisa antes de qualquer mudança.
 
 **Nada sai do seu PC, e nada muda até você rodar o script.**
