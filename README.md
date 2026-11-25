@@ -76,3 +76,11 @@ Testes: `node --test skills/raio-x-github/scripts/teste.mjs`.
 
 ## Fora do escopo (v1)
 Gerar README de perfil com design (só sugere texto), GitLab/Bitbucket, organizações.
+
+## English version
+
+`skills/raio-x-github-en/` is the full English skill (`github-xray`): same checks, English interview, report and `apply.sh`, output folder `xray/`.
+
+- Install: copy `skills/raio-x-github-en/` into `~/.claude/skills/` (needs Node 18+, `gh` authenticated, `git` and `bash`).
+- Use: ask Claude "audit my GitHub" and answer the interview. Nothing runs `--apply` without you.
+- Tests: `node skills/raio-x-github-en/scripts/test.mjs`
