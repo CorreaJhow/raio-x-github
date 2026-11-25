@@ -1,86 +1,89 @@
-# raio-x-github
+# GitHub X-Ray: a Claude Code skill
 
-Skill do [Claude Code](https://code.claude.com) em PT-BR que faz um raio-x do seu GitHub: entende o seu objetivo, audita perfil, repos e **segurança do histórico**, dá nota por eixo e gera um script revisável que aplica as mudanças.
+**English** | [Português (BR)](README.pt-BR.md)
 
-Nunca mais seu GitHub desatualizado.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Node 18+](https://img.shields.io/badge/node-18%2B-green.svg)](https://nodejs.org) [![GitHub stars](https://img.shields.io/github/stars/CorreaJhow/raio-x-github?style=social)](https://github.com/CorreaJhow/raio-x-github)
 
-## O que ela faz
-1. **Entrevista** curta, uma pergunta por vez: cargo, nível, objetivo (CLT, freela, conteúdo, open source) e o que **não pode** ficar público.
-2. **Coleta via `gh`** (só leitura): perfil, bio, repos, README, topics, fixados, contribuições.
-3. **Tendências** do seu cargo/nível e perfis de referência.
-4. **Auditoria de segurança** em todo o histórico dos repos públicos, inclusive refs de PR:
-   - segredo commitado (chaves AWS, GitHub, Google, OpenAI, Anthropic, Stripe, chave privada, connection string...);
-   - arquivo de produto ou de cliente em repo público (a partir da sua lista);
-   - co-autor de IA no commit (`Co-authored-by: Claude...`, Copilot, Cursor);
-   - fork público (não dá pra deixar privado) e commit antigo preso em PR fechado.
-5. **Diagnóstico com nota** 0-10: perfil, vitrine (fixados), qualidade dos repos, segurança e alinhamento com o objetivo.
-6. **`aplicar.sh`**: simula por padrão, só executa com `--aplicar`, cada passo mostra como desfazer, faz backup `--mirror` antes de reescrever histórico e **nunca apaga repo**. Mais um plano dos seus próximos 3-5 repos.
+A [Claude Code](https://code.claude.com) skill that audits your own GitHub account: profile, repos and **the security of your full commit history**. It scores each axis and generates a script you can review before anything changes.
 
-Nada sai do seu PC: coleta, clones e relatório ficam na pasta `raio-x/`.
+**Nothing leaves your machine, and nothing changes until you run the script yourself.**
 
-## Instalar
-Requisitos: Claude Code, [`gh`](https://cli.github.com) autenticado (`gh auth login`), `git`, Node 18+ e `bash` (no Windows, Git Bash).
+## What it does
+1. **Short interview**, one question at a time: role, level, goal (job, freelance, content, open source) and what **must never be public**.
+2. **Read-only collection** with `gh`: profile, bio, repos, READMEs, topics, pinned repos, contributions.
+3. **Trends** for your role and level, with reference profiles.
+4. **Security audit** of the whole history of your public repos, including closed PR refs:
+   - committed secrets (AWS, GitHub, Google, OpenAI, Anthropic, Stripe keys, private keys, connection strings...);
+   - files from paid products or clients in public repos (from your own list);
+   - AI co-author trailers in commits (`Co-authored-by: Claude...`, Copilot, Cursor);
+   - public forks (they can't be made private) and old commits stuck in closed PRs.
+5. **Score from 0 to 10** for profile, pinned repos, repo quality, security and fit with your goal.
+6. **`apply.sh`**: dry-run by default, runs only with `--apply`, shows how to undo each step, makes a `--mirror` backup before rewriting history and **never deletes a repo**. Plus a plan for your next 3-5 repos.
 
+## Requirements
+Claude Code, [`gh`](https://cli.github.com) authenticated (`gh auth login`), `git`, Node 18+ and `bash` (on Windows, Git Bash).
+
+## Installation
 ```text
 /plugin marketplace add CorreaJhow/raio-x-github
 /plugin install raio-x-github@raio-x-github
 ```
+This installs two skills: `github-xray` (English) and `raio-x-github` (Portuguese).
 
-Depois, numa pasta qualquer: "faz um raio-x do meu GitHub".
-
-> Ponha `raio-x/` no `.gitignore`: tem dados da sua conta.
-
-## Exemplo de saída
-
-```text
-$ node scripts/auditoria.mjs
-ok  notas {"perfil":7,"vitrine":4.7,"qualidade":6.2,"seguranca":4,"alinhamento":null} · 14 achados · 6 ações propostas
+Manual install of the English skill:
+```bash
+git clone https://github.com/CorreaJhow/raio-x-github.git
+cp -r raio-x-github/skills/raio-x-github-en ~/.claude/skills/github-xray
 ```
 
-`raio-x/RELATORIO.md` (trecho):
+## Usage
+In any folder, ask Claude: *"audit my GitHub"*, *"what does a recruiter see on my GitHub?"* or *"are there leaked secrets in my repos?"*, then answer the interview. Output goes to `xray/`.
 
-| Severidade | Eixo | Onde | O quê |
+> Add `xray/` to your `.gitignore`: it contains data from your account.
+
+## Example output
+```text
+$ node scripts/audit.mjs
+ok  scores {"profile":7,"pins":4.7,"quality":6.2,"security":4,"fit":null} · 14 findings · 6 proposed actions
+```
+
+`xray/REPORT.md` (excerpt):
+
+| Severity | Axis | Where | What |
 |---|---|---|---|
-| alta | seguranca | portfolio | Item da lista "não pode ser público" (curso-pago) em repo público (ex.: curso-pago/aula1.md). |
-| media | seguranca | api-loja | 12 commit(s) com co-autor/assinatura indesejada nos branches (ex.: co-autor: Claude <noreply@anthropic.com>). |
-| media | qualidade | PrimeiroCrud | Sem push há 4.0 anos e fora da vitrine: estudo velho público? Candidato a privado. |
-| baixa | seguranca | AulaEF | Fork público de professor/AulaEF: fork público não vira privado; as opções são arquivar ou apagar. |
+| high | security | portfolio | Item from your "must not be public" list (paid-course) in a public repo (e.g. paid-course/lesson1.md). |
+| medium | security | shop-api | 12 commit(s) with an unwanted co-author trailer (e.g. co-author: Claude <noreply@anthropic.com>). |
+| medium | quality | FirstCrud | No push in 4.0 years and not pinned: old study repo? Candidate for private. |
 
-`bash raio-x/aplicar.sh` (dry-run):
-
+`bash xray/apply.sh` (dry-run):
 ```text
-SIMULAÇÃO (dry-run): nada será alterado. Use --aplicar pra executar.
+DRY RUN: nothing will be changed. Use --apply to execute.
 
-== 1. privado portfolio: contém "curso-pago"
-  comando:  gh repo edit dev/portfolio --visibility private --accept-visibility-change-consequences
-  desfazer: gh repo edit dev/portfolio --visibility public --accept-visibility-change-consequences
-
-== 2. limpar-coautor api-loja: 12 commit(s) com co-autor: Claude <noreply@anthropic.com>
-  backup:    git clone --mirror https://github.com/dev/api-loja.git raio-x/backup/api-loja-20261111-101500.git
-  reescreve: git filter-branch --msg-filter (tira Co-authored-by de IA e 'Generated with Claude Code')
-  publica:   git push --force https://github.com/dev/api-loja.git (branches e tags)
-  desfazer:  git -C raio-x/backup/api-loja-20261111-101500.git push --force ... 'refs/heads/*:refs/heads/*' 'refs/tags/*:refs/tags/*'
+== 1. private portfolio: contains "paid-course"
+  command:  gh repo edit dev/portfolio --visibility private --accept-visibility-change-consequences
+  undo:     gh repo edit dev/portfolio --visibility public --accept-visibility-change-consequences
 ```
 
-## Os scripts
-Ficam em `skills/raio-x-github/scripts/` e rodam sem dependência:
+## Scripts
+In `skills/raio-x-github-en/scripts/`, no dependencies:
 
-| Script | Faz | Grava |
+| Script | Does | Writes |
 |---|---|---|
-| `coleta.mjs` | lê a conta via `gh` | `raio-x/coleta.json` |
-| `historico.mjs` | clona os públicos e varre o histórico | `raio-x/historico.json` |
-| `auditoria.mjs` | notas, achados e plano | `auditoria.json`, `plano.json`, `RELATORIO.md` |
-| `aplicar.mjs` | gera o script a partir do plano revisado | `raio-x/aplicar.sh` |
+| `collect.mjs` | reads the account via `gh` | `xray/collect.json` |
+| `history.mjs` | clones public repos and scans history | `xray/history.json` |
+| `audit.mjs` | scores, findings and plan | `audit.json`, `plan.json`, `REPORT.md` |
+| `apply.mjs` | builds the script from the reviewed plan | `xray/apply.sh` |
 
-Testes: `node --test skills/raio-x-github/scripts/teste.mjs`.
+Tests: `node --test skills/raio-x-github-en/scripts/test.mjs`
 
-## Fora do escopo (v1)
-Gerar README de perfil com design (só sugere texto), GitLab/Bitbucket, organizações.
+## Safety rules
+- Never deletes a repo: at most private or archived, with your approval.
+- Never runs `apply.sh --apply` on its own: you review the dry-run and run it.
+- Rewriting history does not clean closed PRs and does not undo a leak: **revoke a leaked secret first**.
+- Secrets are masked in all output (`AIza…(39 chars)`).
 
-## English version
+## Out of scope (v1)
+Designed profile READMEs (it only suggests text), GitLab/Bitbucket, organizations.
 
-`skills/raio-x-github-en/` is the full English skill (`github-xray`): same checks, English interview, report and `apply.sh`, output folder `xray/`.
-
-- Install: copy `skills/raio-x-github-en/` into `~/.claude/skills/` (needs Node 18+, `gh` authenticated, `git` and `bash`).
-- Use: ask Claude "audit my GitHub" and answer the interview. Nothing runs `--apply` without you.
-- Tests: `node skills/raio-x-github-en/scripts/test.mjs`
+## License
+MIT. See [LICENSE](LICENSE).
